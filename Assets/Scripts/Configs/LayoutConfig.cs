@@ -1,13 +1,15 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Configs/LayoutConfig")]
+[CreateAssetMenu(menuName = "Configs/LayoutConfig", fileName = "LayoutConfig")]
 public class LayoutConfig : ScriptableObject {
-    [Tooltip("List of possible board layouts (rows x cols).")]
-    public Vector2Int[] layouts = {
-        new Vector2Int(2, 2),
-        new Vector2Int(3, 3),
-        new Vector2Int(4, 4),
-        new Vector2Int(5, 6),
-        new Vector2Int(6, 6)
-    };
+    [Tooltip("All board layouts for this config (easy, hard, etc.).")]
+    public BoardLayout[] layouts;
+
+    private void OnValidate() {
+        foreach (var layout in layouts) {
+            if (!layout.IsValid()) {
+                Debug.LogWarning($"{name}: Layout {layout.rows}x{layout.cols} is invalid. Must have an even number of cells.");
+            }
+        }
+    }
 }
