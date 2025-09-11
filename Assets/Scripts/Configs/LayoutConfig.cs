@@ -6,10 +6,9 @@ public class LayoutConfig : ScriptableObject {
     public BoardLayout[] layouts;
 
     private void OnValidate() {
-        foreach (var layout in layouts) {
-            if (!layout.IsValid()) {
-                Debug.LogWarning($"{name}: Layout {layout.rows}x{layout.cols} is invalid. Must have an even number of cells.");
-            }
+        if (layouts == null) return;
+        foreach (var l in layouts) {
+            l.Validate();
         }
     }
 }
